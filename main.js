@@ -46,7 +46,7 @@ window.addEventListener ("DOMContentLoaded", function(){
 			case "on":
 				$('taskForm').style.display="none";
 				$('clearTask').style.display="inline";
-				$ ('displayTask').style.display="none;"
+				$ ('displayTask').style.display="none";
 				$ ('addTask').style.display="inline";
 				break;
 			case "off":
@@ -69,7 +69,7 @@ window.addEventListener ("DOMContentLoaded", function(){
 		//Object properties contain array with the form label and input value.
 		getSelectedCheckbox ();
 		var item				= {}; 
-			item.checkbox     	= ["Choose a day", dayValue]
+			item.checkbox     	= ["Choose a day", dayValue];
 			item.sub			= ["Subject:", $('sub').value];
 			item.period			= ["Period:", $('period').value];
 			item.grade			= ["Grade Level:", $('grade').value];
