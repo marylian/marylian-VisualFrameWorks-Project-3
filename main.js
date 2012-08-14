@@ -36,7 +36,7 @@ window.addEventListener ("DOMContentLoaded", function(){
 		var checkbox =document.forms [0].weekday;
 		for (var i=0; i<checkbox.length; i++){
 			if (checkbox[i].checked) {
-				dayValue = checkbox [i].value;
+			dayValue = checkbox [i].value;
 			}
 		}
 	}
@@ -97,6 +97,7 @@ function getData (){
         $('cats').style.display="block";
 		for (var i=0, len=localStorage.length; i<len; i++) { 
 			var makeli = document.createElement ('li');
+			var linksLi=document.createElement('li');
 			makeList.appendChild (makeli);
 			var key = localStorage.key (i);
 			var value = localStorage.getItem (key);
@@ -109,8 +110,31 @@ function getData (){
 				makeSubList.appendChild (makeSubli);
 				var optSubText = obj [m] [0]+ " " +obj [m] [1];
 				makeSubli.innerHTML =optSubText;
+				makeSubList.appendChild(linksLi);
 			}
 		}
+		makeItemLinks(localStorage.key[i], linksLi);  //Create our edit and delete links for each item in local storage
+	}
+	//Create the edit and delete links for each item.
+	function makeItemLinks(key, linksLi){
+		var editLink=document.createElement('a');
+		editLink.href='#';
+		editLink.key=key;
+		var editText="Edit task";
+		//editLink.addEventListener("click", editItem);
+		editLink.innerHTML=editText;
+		linksLi.appendChild(editLink);
+		
+		var lineBreak=document.createElement('br');
+		linksLi.appendChild(lineBreak);
+		
+		var deleteLink=document.createElement('a');
+		deleteLink.href="#";
+		deleteLink.key=key;
+		var deleteText="Delete task";
+		//deleteLink.addEventListener("click", deleteItem);
+		deleteLink.innerHTML=deleteText;
+		linksLi.appendChild(deleteLink);
 	}
 
 
@@ -142,4 +166,3 @@ function getData (){
 	var save= $('taskSubmit');
 	save.addEventListener ("click",storeData);
 });
-
