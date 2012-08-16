@@ -58,8 +58,8 @@ window.addEventListener ("DOMContentLoaded", function(){
 				break;
 			default:
 				return false;
-			
-			
+
+
 		}
 	} 
 	function storeData (){
@@ -112,8 +112,8 @@ function getData (){
 				makeSubli.innerHTML =optSubText;
 				makeSubList.appendChild(linksLi);
 			}
+			makeItemLinks(localStorage.key[i], linksLi);  //Create our edit and delete links for each item in local storage
 		}
-		makeItemLinks(localStorage.key[i], linksLi);  //Create our edit and delete links for each item in local storage
 	}
 	//Create the edit and delete links for each item.
 	function makeItemLinks(key, linksLi){
@@ -121,13 +121,13 @@ function getData (){
 		editLink.href='#';
 		editLink.key=key;
 		var editText="Edit task";
-		//editLink.addEventListener("click", editItem);
+		editLink.addEventListener("click", editItem);
 		editLink.innerHTML=editText;
 		linksLi.appendChild(editLink);
-		
+
 		var lineBreak=document.createElement('br');
 		linksLi.appendChild(lineBreak);
-		
+
 		var deleteLink=document.createElement('a');
 		deleteLink.href="#";
 		deleteLink.key=key;
@@ -136,8 +136,45 @@ function getData (){
 		deleteLink.innerHTML=deleteText;
 		linksLi.appendChild(deleteLink);
 	}
-
-
+	function editItem (){
+		//Grab the data from our item from Local Storage.
+		var value = localStorage.getItem (this.key);
+		var item = JSON.parse(value);
+		
+		//Show the forms
+		toggleControls("off");
+		
+		//Populate the form fields with the current localStorage values.
+		var checkbox = document.forms[0].weekday;
+		for (var i=0; i<checkbox.length; i++) {
+			if (checkbox [i].value == "Monday" && item.checkbox[1] == "Monday") {
+				checkbox [i].setAttribute("checked", "checked");
+			}else{
+				if (checkbox [i].value == "Tuesday" && item.checkbox [1] == "Tuesday"){
+				checkbox [i].setAttribute ("checked", "checked");
+				}else{
+			if (checkbox [i].value == "Wednesday" && item.checkbox [1] == "Wednesday"){
+				checkbox [i].setAttribute ("checked", "checked");
+					}else{ if (checkbox [i].value == "Thursday" && item.checkbox [1] == "Thursday"){
+				checkbox [i].setAttribute ("checked", "checked");
+						}else{
+			if (checkbox [i].value == "Friday" && item.checkbox [1] == "Friday"){
+				checkbox [i].setAttribute ("checked", "checked");
+								}
+							}
+						}
+					}
+				}
+		}
+		$('sub').value = item.sub [1];
+		$('period').value = item.period [1];
+		$('grade').value = item.grade[1];
+		$('category').value = item.category [1];
+		$('dueDate').value = item.date [1];
+		$('comments').value = item.comments [1];
+	}
+	
+	
 	function clearLocal() {
 		if (localStorage.length===0){
 			alert("There is no task to clear.");
@@ -148,16 +185,16 @@ function getData (){
 			window.location.reload();
 			return false;
 		}
-		 
-		
+
+
 	}
-	
+
 	//Variable defaults
 	var taskCategories=["Choose a task", "Grade papers", "Contact parents", "Meetings", "Write lesson plans", "Test", "Projects", "Others"],
 		dayValue;
 
 	makeCats();
-	
+
 	//Set Link and Submit Click Events 
 	var displayTask= $('displayTask'); 
 	displayTask.addEventListener ("click", getData); 
