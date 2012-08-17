@@ -1,5 +1,5 @@
 <!DOCTYPE html>
- <!-- Marylia Nieves VFW 1208  -August 09, 2012 Assignment 2 Add Item Page. -->
+ <!-- Marylia Nieves VFW 1208  -August 16, 2012 Assignment 3 Add Item Page. -->
 <!-- HTML Tag-->
 <html>
 	<!--Document Head-->
@@ -12,10 +12,10 @@
 	   		<meta name="viewport" content="user-scalable=no, width=device-width" />
 	    	<meta name="HandheldFriendly" content="True" />
 	    	<link href="style.css" rel="stylesheet" />
-	    	
+
 	    	<!--Document Title-->
 	 		 <title>Weekly Teacher Tasks</title>
-	
+
 	</head>
 		<!--Document Body-->
 	<body>
@@ -23,9 +23,9 @@
 		<form action="#" method="post" id="taskForm"> 
 			<fieldset>
 				<legend>Add a Task</legend>
-				<ul>
+				<ul	id = "errors"></ul>
+				<ul id = "questions">
 					<li>Please Choose a Day:
-						<ul>
 							<li><input	name= "weekday" type="checkbox" value= "Monday" id="monday"/><label for="monday">Monday</label></li>
 							<li><input	name= "weekday" type="checkbox" value= "Tuesday" id="tuesday"/><label for="tuesday">Tuesday</label></li>
 							<li><input	name= "weekday" type="checkbox" value= "Wednesday" id="wednesday"/><label for="wednesday">Wednesday</label></li>
@@ -70,21 +70,3 @@
 		<script type="text/javascript" src="main.js"></script>
 	</body> 
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
