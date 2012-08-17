@@ -1,7 +1,7 @@
 //Marylia Nieves
 //Visual Frameworks (VFW) 
-//Assignment 2
-// 8/09/12 
+//Assignment 3
+// 8/16/12 
 //var chameleon = "blue";
 //alert (chameleon);
 
@@ -62,9 +62,18 @@ window.addEventListener ("DOMContentLoaded", function(){
 
 		}
 	} 
-	function storeData (){
-		//localStorage.setItem("test","hello");
+	function storeData (key){
+		//If there is no key this means this is a brand new item an we need a new key
+		if (!key){
 		var id 					=Math.floor(Math.random()*100000001);
+		}else {
+			//Set the id to the exsisting key that we edit so that it will save over the data
+			//The key is the same key thats been passed along from the editSubmit event handler
+			//to the validate function and then passed here into the store data function. 
+			id = key; 
+		}
+
+		
 		//Gather up all our form field values and store in an object.
 		//Object properties contain array with the form label and input value.
 		getSelectedCheckbox ();
@@ -172,6 +181,27 @@ function getData (){
 		$('category').value = item.category [1];
 		$('dueDate').value = item.date [1];
 		$('comments').value = item.comments [1];
+		
+		//Remove the inital listener from the input 'sace contact' button.
+		save.removeEventListener ("click", storeData);
+		//Change Submit Button Balue to Edit Button
+		$('taskSubmit').value = "Edit Task";
+		var editSubmit = $ ('taskSubmit');
+		//Save the key value established in this function as a property of the editSubmit event
+		//so we can use that value when we save the data we edited.
+		editsubmit.addEventListener ("click",validate);
+		editSubmit.key = this.key;
+		 
+	}
+	function deleteItem(){
+		var ask = confirm("Are you sure you want to delete this task?");
+		if (ask){
+			localStorage.removeItem(this.key);
+			alert ("Contact was deleted!");
+			window.location.reload();
+		}else {
+			alert ("Task was NOT deleted.");
+		}
 	}
 	
 	
@@ -188,10 +218,62 @@ function getData (){
 
 
 	}
-
+	function validate (e){
+		//Define the elements we want to check
+		var getSub = $('sub');
+		var getPeriod = $('period');
+		var getGrade = $('grade');
+		
+		//Reset the Error Messages
+		errMsg.innerHTML = "";
+		getSub.style.border = "1px solid black";
+		getPeriod.style.border = "1px solid black";
+		getGrade.style.border = "1px solid black";
+		
+	
+		//Get error messages
+		var messageArray= [];
+		//Sub Validation 
+		if (getSub.value === ""){
+			var subError = "Please enter a subject area.";
+			getSub.style.border = "1px solid red";
+			messageArray.push (subError);
+		}
+		//Period Validation
+		if (getPeriod.value === ""){
+			var periodError = "Please enter the class period.";
+			getPeriod.style.border = "1px solid red";
+			messageArray.push (periodError);
+		}
+			//Grade Validation
+		if (getGrade.value === ""){
+			var GradeError = "Please select a grade level.";
+			getGrade.style.border = "1px solid red";
+			messageArray.push (gradeError);
+		}
+		//If there are any errors , display on screen.
+		if (messageArray.length>=1){
+			for (var i=0, j=messageArray.length; i<l; i++){
+			var txt = document.createElement('li');
+			txt.innerHTML = messageArray[i];
+			errMsg.appendChild(txt);
+			
+			}
+			e.preventDefault();
+			return false;  
+		}else {
+			//if all is well, save our Data! Send the key value (which came from the editData func)
+			//remember this key value was passed through the editSubmit event listener as property
+			storeData(this.key);  
+		}
+		
+	}
+	
+	
 	//Variable defaults
 	var taskCategories=["Choose a task", "Grade papers", "Contact parents", "Meetings", "Write lesson plans", "Test", "Projects", "Others"],
 		dayValue;
+		errMsg = $ ('errors');
 
 	makeCats();
 
@@ -201,5 +283,5 @@ function getData (){
 	var clearLink= $('clearTask');
 	clearLink.addEventListener ("click", clearLocal);
 	var save= $('taskSubmit');
-	save.addEventListener ("click",storeData);
+	save.addEventListener ("click",validate);
 });
